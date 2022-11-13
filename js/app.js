@@ -353,7 +353,7 @@ $(document).on('page:init', '.page[data-name="sacola"]', function (e) {
     textoWhats = textoWhats + '%0A ✔ *' + item.qtd + 'x de ' + item.nome + '* - R$ ' + item.preco 
     textoWhats = textoWhats + '%0A ' + item.descricao
 
-    total = total + parseFloat(item.preco);
+    total = total + parseFloat(item.preco * item.qtd);
   }
 
   sacola.forEach(MontaTexto);
@@ -386,6 +386,7 @@ $(document).on('page:init', '.page[data-name="sacola"]', function (e) {
 })
 
 function confirmaSacola() {
+  var usuario = JSON.parse(localStorage.getItem("usuario"));
   var textoCliente = "";
 
   app.dialog.confirm('Confirma o envio do pedido?', function () {
@@ -422,6 +423,28 @@ function confirmaSacola() {
 
       textoCliente = textoCliente + "%0A%0A *Forma PGTO:* " + formapagamento;
 
+	window.open("https://api.whatsapp.com/send?phone="+usuario.telefone+"&text="+textoWhats+textoCliente)
+
+/*
+    app.request({
+      url: "whatsapp://send?phone="+telefone+"&text="+textoWhats+textoCliente, 
+      method: 'GET',
+      success: function (res) {
+
+        console.log(res);
+
+        const resultado = JSON.parse(res);
+
+        //if(resultado.status == 200) {
+          //app.popup.close("#novo_cardapio")
+		  app.dialog.alert("Acompanhe seu pedido pelo Whatsapp")
+//        } else {
+          //app.dialog.alert("Não foi possivel conectar ao Whatsapp, tente novamente.")
+        //}
+      }
+    });
+*/
+/*
       const xmlhttp = new XMLHttpRequest();
       xmlhttp.onload = function() {
         alert(this.responseText);
@@ -432,6 +455,7 @@ function confirmaSacola() {
       }
       xmlhttp.open("GET", "whatsapp://send?phone="+telefone+"&text="+textoWhats+textoCliente);
       xmlhttp.send();    
+	*/
     }
   });
 
