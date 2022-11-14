@@ -13,7 +13,7 @@ include_once "conexao.php";
     exit();
     */
 
-    $arquivo = 'fotos\\' . date('Ymdhis') . basename($_FILES['foto']['name']);
+    $arquivo = 'fotos/' . date('Ymdhis') . basename($_FILES['foto']['name']);
     
     if (move_uploaded_file($_FILES['foto']['tmp_name'], $arquivo)) {
 
